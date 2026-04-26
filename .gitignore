@@ -2,5 +2,7 @@ node_modules
 dist
 dist-single
 *.local
+*.tsbuildinfo
 .DS_Store
+.env*
 CLAUDE.local.md
