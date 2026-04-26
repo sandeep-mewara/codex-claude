@@ -25,8 +25,10 @@ export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: U
   const showEditor = !!value || focused
 
   useEffect(() => {
-    if (focused && editorRef.current?.view) {
-      editorRef.current.view.focus()
+    if (focused) {
+      requestAnimationFrame(() => {
+        editorRef.current?.view?.focus()
+      })
     }
   }, [focused])
 
@@ -65,7 +67,9 @@ export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: U
   }, [mode, onChange])
 
   const handleBlur = useCallback(() => {
-    if (!value) setFocused(false)
+    if (!value) {
+      setTimeout(() => setFocused(false), 150)
+    }
   }, [value])
 
   return (

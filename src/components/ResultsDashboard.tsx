@@ -81,7 +81,7 @@ export function ResultsDashboard({ originalMarkdown, result, rewrite, mode, onBa
 
         {hasRewriteChanges && (
           <TabsContent value="optimized">
-            <OptimizedOutput original={originalMarkdown} rewrite={rewrite} />
+            <OptimizedOutput original={originalMarkdown} rewrite={rewrite} result={result} />
           </TabsContent>
         )}
 

@@ -12,11 +12,11 @@ const SEVERITY_ORDER: Record<Severity, number> = { critical: 0, warning: 1, info
 function SeverityIcon({ severity }: { severity: Severity }) {
   switch (severity) {
     case 'critical':
-      return <AlertCircle className="w-4 h-4 text-red-400" />
+      return <AlertCircle className="w-4 h-4 text-status-error" />
     case 'warning':
-      return <AlertTriangle className="w-4 h-4 text-yellow-400" />
+      return <AlertTriangle className="w-4 h-4 text-status-warning" />
     case 'info':
-      return <Info className="w-4 h-4 text-blue-400" />
+      return <Info className="w-4 h-4 text-status-info" />
   }
 }
 
@@ -81,7 +81,7 @@ export function AntiPatterns({ result }: AntiPatternsProps) {
     return (
       <Card>
         <CardContent className="p-8 text-center">
-          <p className="text-lg font-medium text-green-400">No issues found!</p>
+          <p className="text-lg font-medium text-status-success">No issues found!</p>
           <p className="text-sm text-muted-foreground mt-2">Your CLAUDE.md looks great.</p>
         </CardContent>
       </Card>
@@ -93,8 +93,8 @@ export function AntiPatterns({ result }: AntiPatternsProps) {
       {grouped.critical.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <AlertCircle className="w-4 h-4 text-red-400" />
-            <h3 className="text-sm font-medium text-red-400">
+            <AlertCircle className="w-4 h-4 text-status-error" />
+            <h3 className="text-sm font-medium text-status-error">
               Critical ({grouped.critical.length})
             </h3>
           </div>
@@ -107,8 +107,8 @@ export function AntiPatterns({ result }: AntiPatternsProps) {
       {grouped.warning.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <AlertTriangle className="w-4 h-4 text-yellow-400" />
-            <h3 className="text-sm font-medium text-yellow-400">
+            <AlertTriangle className="w-4 h-4 text-status-warning" />
+            <h3 className="text-sm font-medium text-status-warning">
               Warnings ({grouped.warning.length})
             </h3>
           </div>
@@ -121,8 +121,8 @@ export function AntiPatterns({ result }: AntiPatternsProps) {
       {grouped.info.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center gap-2">
-            <Info className="w-4 h-4 text-blue-400" />
-            <h3 className="text-sm font-medium text-blue-400">
+            <Info className="w-4 h-4 text-status-info" />
+            <h3 className="text-sm font-medium text-status-info">
               Info ({grouped.info.length})
             </h3>
           </div>
