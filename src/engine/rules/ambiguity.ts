@@ -13,7 +13,7 @@ const ALWAYS_VAGUE = [
 
 const CONTEXT_DEPENDENT_VAGUE = [
   { pattern: /\bgood\b/i, word: 'good' },
-  { pattern: /\bbest\b/i, word: 'best' },
+  { pattern: /\bbest\b(?!\s+practices?\b)/i, word: 'best' },
 ]
 
 const OPEN_QUALIFIERS = [

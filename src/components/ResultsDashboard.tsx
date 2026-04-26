@@ -87,7 +87,7 @@ export function ResultsDashboard({ originalMarkdown, result, rewrite, mode, onBa
 
         {hasRewriteChanges && (
           <TabsContent value="learning">
-            <LearningSummary rewrite={rewrite} />
+            <LearningSummary rewrite={rewrite} result={result} />
           </TabsContent>
         )}
       </Tabs>

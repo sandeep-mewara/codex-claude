@@ -12,4 +12,4 @@ paths:
 - File-level rules (that analyze the whole document once) guard with `if (ctx.lineIndex !== 0) return null`
 - Suggestions must be concrete and actionable -- include example rewrites when possible
 - Include `docLink` pointing to the relevant section of https://code.claude.com/docs/en/memory
-- The rewriter must never remove user content; it restructures, clarifies, and augments only
+- The rewriter may remove redundant content (duplicates, HTML comments, TODOs, personal preferences, contradictions) and extract path-specific rules and multi-step procedures, logging each removal as a change

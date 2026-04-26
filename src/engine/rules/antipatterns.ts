@@ -4,6 +4,17 @@ function isInCodeBlock(lineIndex: number, codeBlocks: RuleContext['codeBlocks'])
   return codeBlocks.some(b => lineIndex >= b.start && lineIndex <= b.end)
 }
 
+const LAYOUT_SECTIONS = /\b(project\s*layout|project\s*structure|directory|file\s*structure|folder\s*structure|architecture|structure overview)\b/i
+
+function isUnderLayoutHeader(lineIndex: number, headers: RuleContext['headers']): boolean {
+  for (let i = headers.length - 1; i >= 0; i--) {
+    if (headers[i].line <= lineIndex) {
+      return LAYOUT_SECTIONS.test(headers[i].text)
+    }
+  }
+  return false
+}
+
 export const antipatternRules: Rule[] = [
   {
     id: 'multi-step-procedure',
@@ -43,6 +54,8 @@ export const antipatternRules: Rule[] = [
     docLink: 'https://code.claude.com/docs/en/memory#path-specific-rules',
     test: (line, ctx) => {
       if (isInCodeBlock(ctx.lineIndex, ctx.codeBlocks)) return null
+      if (isUnderLayoutHeader(ctx.lineIndex, ctx.headers)) return null
+      const hasImperative = /\b(use|always|never|must|ensure|follow|prefer|avoid|require|should|do not|don't)\b/i.test(line)
       const pathPatterns = [
         /\*\*\/\*\.\w+/,                     // **/*.ts
         /`src\/[^`]+`/,                       // `src/...`
@@ -51,6 +64,7 @@ export const antipatternRules: Rule[] = [
       ]
       for (const p of pathPatterns) {
         if (p.test(line)) {
+          if (p === pathPatterns[1] && !hasImperative) continue
           return {
             message: 'Path-specific instruction should be in .claude/rules/ with paths frontmatter',
             suggestion: 'Create a .claude/rules/<name>.md with `paths: ["pattern"]` frontmatter so it loads only when Claude works with matching files',

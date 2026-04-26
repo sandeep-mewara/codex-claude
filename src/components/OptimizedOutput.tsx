@@ -141,6 +141,7 @@ export function OptimizedOutput({ original, rewrite, result }: OptimizedOutputPr
 interface ActionableItem {
   text: string
   target: string
+  cursorNote?: string
   lines: number[]
 }
 
@@ -165,6 +166,7 @@ function buildActionableItems(issues: Issue[]): ActionableItem[] {
     items.push({
       text: `Move rule${lines.length > 1 ? 's' : ''} referencing \`${path}\``,
       target: `.claude/rules/`,
+      cursorNote: `OR .cursor/rules/ in Cursor`,
       lines,
     })
   }
@@ -180,6 +182,7 @@ function buildActionableItems(issues: Issue[]): ActionableItem[] {
     items.push({
       text: `Move ${steps}-step procedure ("${snippet.length >= 50 ? snippet + '...' : snippet}")`,
       target: `.claude/skills/`,
+      cursorNote: `OR .cursor/skills/ in Cursor`,
       lines: [issue.line + 1],
     })
   }
@@ -274,6 +277,9 @@ function CompactionInsight({ origLines, optLines, pct, changeCount, issues }: {
                       <span>
                         {item.text}
                         <span className="text-primary font-medium"> → {item.target}</span>
+                        {item.cursorNote && (
+                          <span className="text-status-info text-xs font-medium ml-1">({item.cursorNote})</span>
+                        )}
                         {item.lines.length > 0 && (
                           <span className="text-xs opacity-70 ml-1.5">({formatLines(item.lines)})</span>
                         )}
@@ -286,8 +292,10 @@ function CompactionInsight({ origLines, optLines, pct, changeCount, issues }: {
 
             {!showActions && (optLines > 200 || pct < 15) && (
               <p className="text-muted-foreground mt-1">
-                Consider moving path-specific rules to <span className="font-mono text-xs">.claude/rules/</span> and
-                multi-step procedures to <span className="font-mono text-xs">.claude/skills/</span> for further reduction.
+                Consider moving path-specific rules to <span className="font-mono text-xs">.claude/rules/</span>{' '}
+                <span className="text-status-info text-xs font-medium">(OR .cursor/rules/ in Cursor)</span> and
+                multi-step procedures to <span className="font-mono text-xs">.claude/skills/</span>{' '}
+                <span className="text-status-info text-xs font-medium">(OR .cursor/skills/ in Cursor)</span> for further reduction.
               </p>
             )}
           </div>

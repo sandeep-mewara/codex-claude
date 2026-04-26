@@ -6,8 +6,8 @@ Paste your file, hit **Analyze**, and get instant feedback: efficiency scores, a
 
 ## Features
 
-- **Ambiguity Heatmap** -- line-by-line color coding (green/yellow/red) showing how specific your instructions are. Click any line for an explanation and suggested fix.
 - **Efficiency Check** -- four score cards (Structure, Specificity, Completeness, Length) with a weighted overall score.
+- **Ambiguity Heatmap** -- line-by-line color coding (green/yellow/red) showing how specific your instructions are. Click any line for an explanation and suggested fix.
 - **Anti-Patterns Detection** -- detects multi-step procedures that should be Skills, path-specific instructions that belong in `.claude/rules/`, contradictions, duplicates, and more.
 - **Optimized Output** -- side-by-side diff of your original vs. the rule-based rewrite with copy and download buttons.
 - **Learning Summary** -- every change explained with a "why" and a link to the relevant official documentation.
@@ -102,7 +102,21 @@ The engine is entirely client-side -- no backend, no API keys. It parses the mar
 | Completeness | 25% | Build commands, test commands, project layout, conventions, workflow |
 | Length | 20% | Line count vs. the 200-line recommendation |
 
-The rewriter applies non-destructive transforms: it adds structure, replaces vague instructions with concrete alternatives, and appends missing section templates. It never removes your content.
+The rewriter applies structural fixes, replaces vague instructions with concrete alternatives, appends missing section templates, and actively compacts the file by removing duplicates, HTML comments, TODOs, personal preferences, and contradictions. It also extracts path-specific rules and multi-step procedures with guidance on where to relocate them. Every change is logged in the Learning Summary.
+
+## Claude Code & Cursor Compatibility
+
+The tool is built around the CLAUDE.md spec, which is read by both **Claude Code** and **Cursor**. All analysis and optimization applies universally -- a well-structured CLAUDE.md benefits both tools equally.
+
+Where the tools diverge is in how they organize rules and skills:
+
+| Feature | Claude Code | Cursor |
+|---|---|---|
+| `CLAUDE.md` | `.claude/rules/` with `paths:` frontmatter | `.cursor/rules/` |
+| Skills | `.claude/skills/*/SKILL.md` | `.cursor/skills/` |
+| Local overrides | `CLAUDE.local.md` (gitignored) | Not applicable |
+
+When the optimizer recommends moving content to `.claude/rules/` or `.claude/skills/`, Cursor users should use the `.cursor/` equivalents instead. The tool includes these notes automatically in the Optimized Output and Learning Summary.
 
 ## Adding New Rules
 
