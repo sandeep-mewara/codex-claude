@@ -159,19 +159,19 @@ export function AmbiguityHeatmap({ originalMarkdown, result }: AmbiguityHeatmapP
           <CardContent className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Clean lines</span>
-              <span className="text-green-400">
+              <span className="text-status-success">
                 {result.lines.filter((l) => l.text.trim() && l.ambiguityScore === 0).length}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Somewhat vague</span>
-              <span className="text-yellow-400">
+              <span className="text-status-warning">
                 {result.lines.filter((l) => l.ambiguityScore > 0 && l.ambiguityScore < 0.6).length}
               </span>
             </div>
             <div className="flex justify-between">
               <span className="text-muted-foreground">Highly ambiguous</span>
-              <span className="text-red-400">
+              <span className="text-status-error">
                 {result.lines.filter((l) => l.ambiguityScore >= 0.6).length}
               </span>
             </div>

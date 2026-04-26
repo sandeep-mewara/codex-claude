@@ -32,6 +32,16 @@ html {
   --color-heat-yellow: rgba(234, 179, 8, 0.15);
   --color-heat-red: rgba(239, 68, 68, 0.15);
 
+  --color-diff-removed: #fca5a5;
+  --color-diff-removed-bg: rgba(239, 68, 68, 0.1);
+  --color-diff-added: #86efac;
+  --color-diff-added-bg: rgba(34, 197, 94, 0.1);
+
+  --color-status-success: #4ade80;
+  --color-status-warning: #facc15;
+  --color-status-error: #f87171;
+  --color-status-info: #60a5fa;
+
   --radius-lg: 0.75rem;
   --radius-md: 0.5rem;
   --radius-sm: 0.25rem;
@@ -64,6 +74,16 @@ html {
   --color-heat-green: rgba(22, 163, 74, 0.12);
   --color-heat-yellow: rgba(202, 138, 4, 0.12);
   --color-heat-red: rgba(220, 38, 38, 0.12);
+
+  --color-diff-removed: #991b1b;
+  --color-diff-removed-bg: rgba(239, 68, 68, 0.08);
+  --color-diff-added: #166534;
+  --color-diff-added-bg: rgba(34, 197, 94, 0.08);
+
+  --color-status-success: #16a34a;
+  --color-status-warning: #ca8a04;
+  --color-status-error: #dc2626;
+  --color-status-info: #2563eb;
 }
 
 body {
