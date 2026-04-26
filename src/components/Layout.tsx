@@ -48,7 +48,7 @@ export function Layout({ children }: { children: ReactNode }) {
             </a>.
           </div>
           <div className="flex-1 text-right text-xs text-muted-foreground/60">
-            v{__APP_VERSION__}
+            v{__APP_VERSION__.split('.').slice(0, 2).join('.')}
           </div>
         </div>
       </footer>
