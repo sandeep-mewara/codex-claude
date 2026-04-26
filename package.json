@@ -1,7 +1,7 @@
 {
   "name": "codex-claude",
   "private": true,
-  "version": "1.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "Analyze and optimize your CLAUDE.md and SKILL.md files against official best practices",
   "scripts": {

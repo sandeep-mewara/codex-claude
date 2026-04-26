@@ -130,14 +130,15 @@ Follow the steps in that Skill, or see `src/engine/rules/ambiguity.ts` for examp
 
 ## Versioning
 
-The app uses a two-digit `MAJOR.MINOR` scheme (e.g., `v1.0`, `v1.1`, `v2.0`). The version is displayed in the footer.
+The app uses standard semver (`MAJOR.MINOR.PATCH`) in `package.json` but displays only two digits (`v1.0`) in the footer.
 
-- **Major** bump (`1.x` → `2.0`): breaking changes or major overhaul
-- **Minor** bump (`1.0` → `1.1`): new features, rule additions, bug fixes
+- **Major** bump (`1.x.x` → `2.0.0`): breaking changes or major overhaul
+- **Minor** bump (`1.0.x` → `1.1.0`): new features, rule additions, bug fixes
+- **Patch** bump (`1.0.0` → `1.0.1`): minor tweaks (not shown in UI)
 
 To release a new version:
 
-1. Update `"version"` in `package.json` (e.g., `"1.0"` → `"1.1"`)
+1. Update `"version"` in `package.json` (e.g., `"1.0.0"` → `"1.1.0"`)
 2. Commit and push your changes
 3. Tag the release: `git tag v1.1`
 4. Push the tag: `git push --tags`
