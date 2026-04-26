@@ -37,12 +37,20 @@ export function Layout({ children }: { children: ReactNode }) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {children}
       </main>
-      <footer className="border-t border-border py-6 text-center text-sm text-muted-foreground">
-        Built for beginners learning to work with Claude Code.
-        Rules derived from the{' '}
-        <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-          official documentation
-        </a>.
+      <footer className="border-t border-border py-6 text-sm text-muted-foreground">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="flex-1" />
+          <div className="text-center">
+            Built for beginners learning to work with Claude Code.
+            Rules derived from the{' '}
+            <a href="https://code.claude.com/docs/en/memory" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+              official documentation
+            </a>.
+          </div>
+          <div className="flex-1 text-right text-xs text-muted-foreground/60">
+            v{__APP_VERSION__}
+          </div>
+        </div>
       </footer>
     </div>
   )
