@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+html {
+  scrollbar-gutter: stable;
+}
+
+@theme {
+  --color-background: #09090b;
+  --color-foreground: #fafafa;
+  --color-card: #0a0a0f;
+  --color-card-foreground: #fafafa;
+  --color-popover: #09090b;
+  --color-popover-foreground: #fafafa;
+  --color-primary: #a78bfa;
+  --color-primary-foreground: #09090b;
+  --color-secondary: #1e1e2e;
+  --color-secondary-foreground: #fafafa;
+  --color-muted: #18181b;
+  --color-muted-foreground: #a1a1aa;
+  --color-accent: #27272a;
+  --color-accent-foreground: #fafafa;
+  --color-destructive: #ef4444;
+  --color-border: #27272a;
+  --color-input: #27272a;
+  --color-ring: #a78bfa;
+
+  --color-score-good: #22c55e;
+  --color-score-ok: #eab308;
+  --color-score-bad: #ef4444;
+
+  --color-heat-green: rgba(34, 197, 94, 0.15);
+  --color-heat-yellow: rgba(234, 179, 8, 0.15);
+  --color-heat-red: rgba(239, 68, 68, 0.15);
+
+  --radius-lg: 0.75rem;
+  --radius-md: 0.5rem;
+  --radius-sm: 0.25rem;
+}
+
+body {
+  @apply bg-background text-foreground antialiased;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+.cm-editor {
+  font-size: 14px;
+  border-radius: var(--radius-md);
+}
+
+.cm-editor .cm-scroller {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.heat-line-green { background-color: var(--color-heat-green) !important; }
+.heat-line-yellow { background-color: var(--color-heat-yellow) !important; }
+.heat-line-red { background-color: var(--color-heat-red) !important; }
+
+.score-ring {
+  transition: stroke-dashoffset 0.8s ease-in-out;
+}
