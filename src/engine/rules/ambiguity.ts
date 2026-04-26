@@ -1,16 +1,19 @@
-import type { Rule } from '../types'
+import type { Rule, RuleContext } from '../types'
 
-const VAGUE_ADJECTIVES = [
+const ALWAYS_VAGUE = [
   { pattern: /\bproperly\b/i, word: 'properly' },
   { pattern: /\bnicely\b/i, word: 'nicely' },
   { pattern: /\bcorrectly\b/i, word: 'correctly' },
   { pattern: /\bappropriate(ly)?\b/i, word: 'appropriate(ly)' },
   { pattern: /\bclean(ly)?\b/i, word: 'clean' },
-  { pattern: /\bgood\b/i, word: 'good' },
   { pattern: /\bbetter\b/i, word: 'better' },
-  { pattern: /\bbest\b/i, word: 'best' },
   { pattern: /\breasonable\b/i, word: 'reasonable' },
   { pattern: /\bsimple\b/i, word: 'simple' },
+]
+
+const CONTEXT_DEPENDENT_VAGUE = [
+  { pattern: /\bgood\b/i, word: 'good' },
+  { pattern: /\bbest\b/i, word: 'best' },
 ]
 
 const OPEN_QUALIFIERS = [
@@ -23,12 +26,26 @@ const OPEN_QUALIFIERS = [
   { pattern: /\bif possible\b/i, phrase: 'if possible' },
 ]
 
+const DESCRIPTIVE_SECTIONS = /\b(about|overview|description|features|introduction|summary|what|how it works|tech stack|background)\b/i
+
 function isInCodeBlock(lineIndex: number, codeBlocks: { start: number; end: number }[]): boolean {
   return codeBlocks.some(b => lineIndex >= b.start && lineIndex <= b.end)
 }
 
 function isHeaderOrEmpty(line: string): boolean {
   return line.trim() === '' || /^#{1,6}\s/.test(line)
+}
+
+function isUnderDescriptiveHeader(lineIndex: number, headers: RuleContext['headers']): boolean {
+  let currentHeader: string | null = null
+  for (let i = headers.length - 1; i >= 0; i--) {
+    if (headers[i].line <= lineIndex) {
+      currentHeader = headers[i].text
+      break
+    }
+  }
+  if (!currentHeader) return false
+  return DESCRIPTIVE_SECTIONS.test(currentHeader)
 }
 
 export const ambiguityRules: Rule[] = [
@@ -41,12 +58,23 @@ export const ambiguityRules: Rule[] = [
     docLink: 'https://code.claude.com/docs/en/memory#write-effective-instructions',
     test: (line, ctx) => {
       if (isInCodeBlock(ctx.lineIndex, ctx.codeBlocks) || isHeaderOrEmpty(line)) return null
-      for (const { pattern, word } of VAGUE_ADJECTIVES) {
+      for (const { pattern, word } of ALWAYS_VAGUE) {
         if (pattern.test(line)) {
           return {
             message: `Vague adjective "${word}" -- Claude cannot verify this`,
             suggestion: `Replace "${word}" with a specific, measurable criterion. E.g., "Format code properly" -> "Use 2-space indentation and Prettier formatting"`,
             originalText: line.trim(),
+          }
+        }
+      }
+      if (!isUnderDescriptiveHeader(ctx.lineIndex, ctx.headers)) {
+        for (const { pattern, word } of CONTEXT_DEPENDENT_VAGUE) {
+          if (pattern.test(line)) {
+            return {
+              message: `Vague adjective "${word}" -- Claude cannot verify this`,
+              suggestion: `Replace "${word}" with a specific, measurable criterion. E.g., "Follow best practices" -> "Follow the conventions listed in ## Coding Conventions"`,
+              originalText: line.trim(),
+            }
           }
         }
       }
