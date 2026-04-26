@@ -29,7 +29,7 @@ Tests live in `src/engine/__tests__/` and cover all rule modules, the analyzer o
   - `rules/` -- Individual rule modules (ambiguity, structure, antipatterns, completeness)
 - `src/components/` -- React UI components
   - `ui/` -- Primitive components (Button, Card, Badge, Tabs, Progress, Alert)
-  - Top-level files are feature components (UploadArea, AmbiguityHeatmap, etc.)
+  - `*.tsx` -- Top-level files are feature components (UploadArea, AmbiguityHeatmap, etc.)
 - `src/data/` -- Static data (sample CLAUDE.md, best practices reference)
 - `src/lib/utils.ts` -- Utility functions (cn, scoring helpers, file download)
 

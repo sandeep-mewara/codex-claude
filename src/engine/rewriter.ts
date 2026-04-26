@@ -129,7 +129,7 @@ function removeHtmlComments(
   changes: RewriteChange[]
 ): MaybeLine[] {
   const result = [...lines]
-  const commentIssues = issues.filter(i => i.ruleId === 'html-comment-waste')
+  const commentIssues = issues.filter(i => i.ruleId === 'html-comment-waste' && i.severity !== 'info')
   for (const issue of commentIssues) {
     const idx = issue.line
     if (result[idx] === REMOVED) continue
@@ -175,7 +175,7 @@ function removePersonalPreferences(
   changes: RewriteChange[]
 ): MaybeLine[] {
   const result = [...lines]
-  const personalIssues = issues.filter(i => i.ruleId === 'personal-preference-in-project')
+  const personalIssues = issues.filter(i => i.ruleId === 'personal-preference-in-project' && i.severity !== 'info')
   for (const issue of personalIssues) {
     const idx = issue.line
     if (result[idx] === REMOVED) continue
@@ -198,7 +198,7 @@ function extractPathSpecificRules(
   changes: RewriteChange[]
 ): MaybeLine[] {
   const result = [...lines]
-  const pathIssues = issues.filter(i => i.ruleId === 'path-specific-instruction')
+  const pathIssues = issues.filter(i => i.ruleId === 'path-specific-instruction' && i.severity !== 'info')
   for (const issue of pathIssues) {
     const idx = issue.line
     if (result[idx] === REMOVED) continue
@@ -207,7 +207,7 @@ function extractPathSpecificRules(
       category: 'antipattern',
       original: result[idx] as string,
       rewritten: '(removed -- move to .claude/rules/)',
-      reason: 'Extracted path-specific instruction -- create a .claude/rules/<name>.md with paths frontmatter so it loads only when Claude works with matching files',
+      reason: 'Extracted path-specific instruction -- create a .claude/rules/<name>.md with paths frontmatter so it loads only when Claude works with matching files. OR .cursor/rules/ in Cursor.',
       docLink: 'https://code.claude.com/docs/en/memory#path-specific-rules',
     })
     result[idx] = REMOVED
@@ -254,7 +254,7 @@ function extractMultiStepProcedures(
       category: 'antipattern',
       original: removedLines.join('\n'),
       rewritten: '(removed -- move to .claude/skills/)',
-      reason: `Extracted ${stepCount}-step procedure -- move to .claude/skills/<name>/SKILL.md. Skills load on demand and keep CLAUDE.md concise.`,
+      reason: `Extracted ${stepCount}-step procedure -- move to .claude/skills/<name>/SKILL.md. Skills load on demand and keep CLAUDE.md concise. OR .cursor/skills/ in Cursor.`,
       docLink: 'https://code.claude.com/docs/en/skills',
     })
   }
@@ -291,7 +291,7 @@ function collapseVerboseBullets(
   changes: RewriteChange[]
 ): MaybeLine[] {
   const result = [...lines]
-  const verboseIssues = issues.filter(i => i.ruleId === 'verbose-single-rule')
+  const verboseIssues = issues.filter(i => i.ruleId === 'verbose-single-rule' && i.severity !== 'info')
 
   for (const issue of verboseIssues) {
     const startIdx = issue.line

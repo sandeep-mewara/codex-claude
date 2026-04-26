@@ -88,7 +88,7 @@ describe('removeDuplicateLines', () => {
 })
 
 describe('removeHtmlComments', () => {
-  it('removes HTML comments from output', () => {
+  it('skips info-severity HTML comments (left for manual attention)', () => {
     const md = `## Build
 
 <!-- this is an HTML comment that wastes space -->
@@ -96,8 +96,8 @@ describe('removeHtmlComments', () => {
 - Run npm build`
 
     const result = rewrite(md, analyze(md))
-    expect(result.optimizedMarkdown).not.toContain('<!-- this is an HTML comment')
-    expect(result.changes.some(c => c.reason.includes('HTML comment'))).toBe(true)
+    expect(result.optimizedMarkdown).toContain('<!-- this is an HTML comment')
+    expect(result.changes.some(c => c.reason.includes('HTML comment'))).toBe(false)
   })
 
   it('preserves comments inside code blocks', () => {
@@ -140,28 +140,28 @@ describe('removeTodosAndFixmes', () => {
 })
 
 describe('removePersonalPreferences', () => {
-  it('removes personal preference lines', () => {
+  it('skips info-severity personal preferences (left for manual attention)', () => {
     const md = `## Rules
 
 - Use TypeScript for all files
 - I prefer using vim for editing`
 
     const result = rewrite(md, analyze(md))
-    expect(result.optimizedMarkdown).not.toContain('I prefer using vim')
-    expect(result.changes.some(c => c.reason.includes('personal preference') || c.reason.includes('Personal preference'))).toBe(true)
+    expect(result.optimizedMarkdown).toContain('I prefer using vim')
+    expect(result.changes.some(c => c.reason.includes('personal preference') || c.reason.includes('Personal preference'))).toBe(false)
   })
 })
 
 describe('extractPathSpecificRules', () => {
-  it('removes path-specific instructions', () => {
+  it('skips info-severity path-specific instructions (left for manual attention)', () => {
     const md = `## Rules
 
 - Use TypeScript strict mode
 - When editing \`src/components/\` always use functional components`
 
     const result = rewrite(md, analyze(md))
-    expect(result.optimizedMarkdown).not.toContain('src/components/')
-    expect(result.changes.some(c => c.reason.includes('path-specific') || c.reason.includes('Path-specific'))).toBe(true)
+    expect(result.optimizedMarkdown).toContain('src/components/')
+    expect(result.changes.some(c => c.reason.includes('path-specific') || c.reason.includes('Path-specific'))).toBe(false)
   })
 })
 
@@ -216,7 +216,7 @@ describe('removeContradictions', () => {
 })
 
 describe('collapseVerboseBullets', () => {
-  it('collapses verbose bullet continuations', () => {
+  it('skips info-severity verbose bullets (left for manual attention)', () => {
     const md = `## Rules
 
 - Use TypeScript strict mode
@@ -227,7 +227,7 @@ describe('collapseVerboseBullets', () => {
 
     const result = rewrite(md, analyze(md))
     const collapseChanges = result.changes.filter(c => c.reason.includes('Condensed') || c.reason.includes('verbose'))
-    expect(collapseChanges.length).toBeGreaterThanOrEqual(1)
+    expect(collapseChanges.length).toBe(0)
   })
 })
 
