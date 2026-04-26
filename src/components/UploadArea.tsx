@@ -1,5 +1,5 @@
-import { useCallback, useRef } from 'react'
-import CodeMirror from '@uiw/react-codemirror'
+import { useCallback, useRef, useState, useEffect } from 'react'
+import CodeMirror, { type ReactCodeMirrorRef } from '@uiw/react-codemirror'
 import { markdown } from '@codemirror/lang-markdown'
 import { Button } from './ui/button'
 import { SAMPLE_CLAUDE_MD } from '@/data/sample-claude-md'
@@ -19,6 +19,16 @@ interface UploadAreaProps {
 export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: UploadAreaProps) {
   const { theme } = useTheme()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const editorRef = useRef<ReactCodeMirrorRef>(null)
+  const [focused, setFocused] = useState(false)
+
+  const showEditor = !!value || focused
+
+  useEffect(() => {
+    if (focused && editorRef.current?.view) {
+      editorRef.current.view.focus()
+    }
+  }, [focused])
 
   const handleFileUpload = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -53,6 +63,10 @@ export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: U
   const handleLoadSample = useCallback(() => {
     onChange(mode === 'claude-md' ? SAMPLE_CLAUDE_MD : SAMPLE_SKILL_MD)
   }, [mode, onChange])
+
+  const handleBlur = useCallback(() => {
+    if (!value) setFocused(false)
+  }, [value])
 
   return (
     <div className="space-y-6">
@@ -104,10 +118,12 @@ export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: U
         onDrop={handleDrop}
         onDragOver={(e) => e.preventDefault()}
       >
-        {value ? (
+        {showEditor ? (
           <CodeMirror
+            ref={editorRef}
             value={value}
             onChange={onChange}
+            onBlur={handleBlur}
             extensions={[markdown()]}
             theme={theme}
             height="400px"
@@ -119,12 +135,15 @@ export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: U
             }}
           />
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 text-muted-foreground">
+          <div
+            className="flex flex-col items-center justify-center py-20 text-muted-foreground cursor-text"
+            onClick={() => setFocused(true)}
+          >
             <Upload className="w-10 h-10 mb-4 opacity-40" />
             <p className="text-lg font-medium">
               Drop your {mode === 'claude-md' ? 'CLAUDE.md' : 'SKILL.md'} here
             </p>
-            <p className="text-sm mt-1">or paste content / use the buttons below</p>
+            <p className="text-sm mt-1">or click to paste / use the buttons below</p>
           </div>
         )}
       </div>
