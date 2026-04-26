@@ -6,6 +6,7 @@ import { type Extension, RangeSetBuilder } from '@codemirror/state'
 import type { AnalysisResult, LineAnalysis } from '@/engine/types'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Badge } from './ui/badge'
+import { useTheme } from '@/lib/theme-context'
 
 interface AmbiguityHeatmapProps {
   originalMarkdown: string
@@ -50,6 +51,7 @@ function createHeatmapExtension(lines: LineAnalysis[]): Extension {
 }
 
 export function AmbiguityHeatmap({ originalMarkdown, result }: AmbiguityHeatmapProps) {
+  const { theme } = useTheme()
   const [selectedLine, setSelectedLine] = useState<number | null>(null)
   const selectedLineData = selectedLine !== null ? result.lines[selectedLine] : null
 
@@ -89,7 +91,7 @@ export function AmbiguityHeatmap({ originalMarkdown, result }: AmbiguityHeatmapP
           <CodeMirror
             value={originalMarkdown}
             extensions={[markdown(), heatmapExt, clickHandler, EditorView.editable.of(false)]}
-            theme="dark"
+            theme={theme}
             height="500px"
             basicSetup={{ lineNumbers: true, foldGutter: false, highlightActiveLine: false }}
           />
