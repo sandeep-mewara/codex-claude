@@ -9,8 +9,8 @@ export function Layout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
-            <img src="/logo.svg" alt="Codex Claude" className="w-8 h-8" />
+          <a href={import.meta.env.BASE_URL} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
+            <img src={`${import.meta.env.BASE_URL}logo.svg`} alt="Codex Claude" className="w-8 h-8" />
             <h1 className="text-lg font-semibold tracking-tight">
               Codex Claude
             </h1>
