@@ -5,6 +5,7 @@ import { Button } from './ui/button'
 import { SAMPLE_CLAUDE_MD } from '@/data/sample-claude-md'
 import { SAMPLE_SKILL_MD } from '@/data/sample-skill-md'
 import { Upload, Play, FileText, FileCode } from 'lucide-react'
+import { useTheme } from '@/lib/theme-context'
 import type { AnalysisMode } from '@/App'
 
 interface UploadAreaProps {
@@ -16,6 +17,7 @@ interface UploadAreaProps {
 }
 
 export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: UploadAreaProps) {
+  const { theme } = useTheme()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileUpload = useCallback(
@@ -107,7 +109,7 @@ export function UploadArea({ value, onChange, onAnalyze, mode, onModeChange }: U
             value={value}
             onChange={onChange}
             extensions={[markdown()]}
-            theme="dark"
+            theme={theme}
             height="400px"
             className="rounded-lg overflow-hidden"
             basicSetup={{

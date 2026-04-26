@@ -7,6 +7,7 @@ import { Button } from './ui/button'
 import { Badge } from './ui/badge'
 import { Copy, Download, Check, ArrowLeftRight } from 'lucide-react'
 import { downloadFile } from '@/lib/utils'
+import { useTheme } from '@/lib/theme-context'
 
 interface OptimizedOutputProps {
   original: string
@@ -14,6 +15,7 @@ interface OptimizedOutputProps {
 }
 
 export function OptimizedOutput({ original, rewrite }: OptimizedOutputProps) {
+  const { theme } = useTheme()
   const [copied, setCopied] = useState(false)
   const [view, setView] = useState<'side-by-side' | 'optimized'>('side-by-side')
 
@@ -70,7 +72,7 @@ export function OptimizedOutput({ original, rewrite }: OptimizedOutputProps) {
               <CodeMirror
                 value={original}
                 extensions={[markdown(), EditorView.editable.of(false)]}
-                theme="dark"
+                theme={theme}
                 height="500px"
                 basicSetup={{ lineNumbers: true, foldGutter: false, highlightActiveLine: false }}
               />
@@ -82,7 +84,7 @@ export function OptimizedOutput({ original, rewrite }: OptimizedOutputProps) {
               <CodeMirror
                 value={rewrite.optimizedMarkdown}
                 extensions={[markdown(), EditorView.editable.of(false)]}
-                theme="dark"
+                theme={theme}
                 height="500px"
                 basicSetup={{ lineNumbers: true, foldGutter: false, highlightActiveLine: false }}
               />
@@ -94,7 +96,7 @@ export function OptimizedOutput({ original, rewrite }: OptimizedOutputProps) {
           <CodeMirror
             value={rewrite.optimizedMarkdown}
             extensions={[markdown(), EditorView.editable.of(false)]}
-            theme="dark"
+            theme={theme}
             height="600px"
             basicSetup={{ lineNumbers: true, foldGutter: false, highlightActiveLine: false }}
           />

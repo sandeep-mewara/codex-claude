@@ -37,6 +37,35 @@ html {
   --radius-sm: 0.25rem;
 }
 
+[data-theme="light"] {
+  --color-background: #ffffff;
+  --color-foreground: #09090b;
+  --color-card: #f9fafb;
+  --color-card-foreground: #09090b;
+  --color-popover: #ffffff;
+  --color-popover-foreground: #09090b;
+  --color-primary: #7c3aed;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f1f5f9;
+  --color-secondary-foreground: #0f172a;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-accent: #e2e8f0;
+  --color-accent-foreground: #0f172a;
+  --color-destructive: #dc2626;
+  --color-border: #e2e8f0;
+  --color-input: #e2e8f0;
+  --color-ring: #7c3aed;
+
+  --color-score-good: #16a34a;
+  --color-score-ok: #ca8a04;
+  --color-score-bad: #dc2626;
+
+  --color-heat-green: rgba(22, 163, 74, 0.12);
+  --color-heat-yellow: rgba(202, 138, 4, 0.12);
+  --color-heat-red: rgba(220, 38, 38, 0.12);
+}
+
 body {
   @apply bg-background text-foreground antialiased;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
